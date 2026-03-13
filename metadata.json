@@ -1,0 +1,5 @@
+{
+  "name": "Echo - Voice Messaging",
+  "description": "A real-time messaging app with voice notes, inspired by WhatsApp.",
+  "requestFramePermissions": ["microphone", "camera"]
+}

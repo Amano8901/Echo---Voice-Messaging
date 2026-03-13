@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+body {
+  @apply bg-[#f0f2f5] antialiased text-zinc-900;
+}
+
+input:focus {
+  outline: none;
+}

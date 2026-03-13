@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "email"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A conversation between two or more users",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "lastMessageTimestamp": { "type": "string", "format": "date-time" },
+        "lastMessageSenderId": { "type": "string" },
+        "lastMessageStatus": { "type": "string", "enum": ["sent", "read"] }
+      },
+      "required": ["participants"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A single message in a chat",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "voice"] },
+        "audioUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["sent", "read"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "type", "timestamp"]
+    },
+    "Call": {
+      "title": "Call",
+      "description": "A call between two users",
+      "type": "object",
+      "properties": {
+        "callerId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "type": { "type": "string", "enum": ["audio", "video"] },
+        "status": { "type": "string", "enum": ["calling", "ongoing", "ended", "missed", "rejected"] },
+        "offer": { "type": "object" },
+        "answer": { "type": "object" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["callerId", "receiverId", "type", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/chats/{chatId}": {
+      "schema": "Chat",
+      "description": "Chat metadata"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages within a chat"
+    },
+    "/calls/{callId}": {
+      "schema": "Call",
+      "description": "Real-time calls"
+    },
+    "/calls/{callId}/callerCandidates/{candidateId}": {
+      "schema": "object",
+      "description": "ICE candidates from caller"
+    },
+    "/calls/{callId}/receiverCandidates/{candidateId}": {
+      "schema": "object",
+      "description": "ICE candidates from receiver"
+    }
+  }
+}
